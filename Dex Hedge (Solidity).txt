@@ -1,58 +1,5 @@
-import smartcontract
-import datafeed
 
-# Define the fund's portfolio
-portfolio: map(address, int) = {}
-
-# Define the fund's holdings in terms of coin popularity
-popularity: map(address, int) = {
-    0x01: 1, # Bitcoin
-    0x02: 2, # Ethereum
-    0x03: 3, # Litecoin
-    // ...
-}
-
-# Define the fund's investments
-fund: int
-
-# Define the fund's investment strategy
-@smartcontract
-fun invest():
-    # Get the current market data
-    market = datafeed.getMarketData()
-
-    # Evaluate the fund's investments
-    for coin, price in market:
-        # Calculate the fund's investment in the coin
-        investment = fund * popularity[coin] / sum(popularity.values())
-
-        # Make the investment
-        portfolio[coin] = portfolio[coin] + investment
-
-    return portfolio
-
-# Define the fund's withdrawal strategy
-@smartcontract
-fun withdraw():
-    # Evaluate the fund's portfolio
-    for coin, holding in portfolio:
-        # Calculate the fund's withdrawal from the coin
-        withdrawal = holding * popularity[coin] / sum(popularity.values())
-
-        # Make the withdrawal
-        portfolio[coin] = portfolio[coin] - withdrawal
-
-    # Transfer the fund's remaining balance to the investor
-    msg.sender.transfer(fund - sum(portfolio.values()))
-
-    return portfolio
-#
-#
-
-#
-#
-
-#Using 2 year previous historical data
+###Using 2 year previous historical data
 import requests
 import json
 
@@ -83,7 +30,7 @@ for coin in coins:
     # Store the historical data for the coin Using CoinDesk API
     historical_data[coin] = data["bpi"]
 
-print(historical_data)
+print(historical_data)###
 
 #
 #
